@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import {asObject} from './reducer'
 
 class App extends React.Component {
   vote = (id) => () => {
@@ -9,6 +10,15 @@ class App extends React.Component {
     })
   }
   
+  addNew = (event) => {
+    event.preventDefault()
+    this.props.store.dispatch({
+      type: 'NEW_ANECDOTE',
+      data: asObject(event.target.anecdote.value)
+    })
+    event.target.anecdote.value = ''
+  }
+
   sortedAnecdotes = (anecdotes) => {
     const sorted = anecdotes.sort((a, b) => {return (b.votes - a.votes)})
     return sorted
@@ -31,9 +41,9 @@ class App extends React.Component {
           </div>
         )}
         <h2>Create new</h2>
-        <form>
-          <div><input /></div>
-          <button>create</button> 
+        <form onSubmit={this.addNew}>
+          <div><input name="anecdote"/></div>
+          <button type="submit">create</button> 
         </form>
       </div>
     )
