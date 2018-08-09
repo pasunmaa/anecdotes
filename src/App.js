@@ -9,15 +9,20 @@ class App extends React.Component {
     })
   }
   
+  sortedAnecdotes = (anecdotes) => {
+    const sorted = anecdotes.sort((a, b) => {return (b.votes - a.votes)})
+    return sorted
+  }
+
   render() {
-    const anecdotes = this.props.store.getState()
+    const anecdotes = this.sortedAnecdotes(this.props.store.getState())
     return (
       <div>
         <h2>Anecdotes</h2>
         {anecdotes.map(anecdote =>
           <div key={anecdote.id}>
             <div>
-              {anecdote.content} 
+              {anecdote.content}
             </div>
             <div>
               has {anecdote.votes} {'  '}
@@ -25,7 +30,7 @@ class App extends React.Component {
             </div>
           </div>
         )}
-        <h2>create new</h2>
+        <h2>Create new</h2>
         <form>
           <div><input /></div>
           <button>create</button> 
